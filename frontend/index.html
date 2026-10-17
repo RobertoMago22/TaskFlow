@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow | Gerenciador de tarefas</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">T</div>
+            <span>TaskFlow</span>
+        </div>
+
+        <nav>
+            <a href="#" class="nav-item active">
+                <span>▦</span> Visão geral
+            </a>
+            <a href="#lista" class="nav-item">
+                <span>☷</span> Minhas tarefas
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="profile-avatar" id="avatar">U</div>
+            <div>
+                <strong id="nomeUsuario">Meu espaço</strong>
+                <small>Gerenciador pessoal</small>
+            </div>
+        </div>
+
+        <button type="button" id="deslogar" class="logout-button">
+            <span>↪</span>
+                Sair da conta
+        </button>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div>
+                <p class="eyebrow">GERENCIAMENTO</p>
+                <h1>Visão geral</h1>
+                <p class="subtitle">Organize suas tarefas e acompanhe seu progresso.</p>
+            </div>
+            <button id="novaTarefa" class="primary-button">
+                + Nova tarefa
+            </button>
+        </header>
+
+        <section class="stats">
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span>Total de tarefas</span>
+                    <span class="stat-icon blue">▤</span>
+                </div>
+                <strong id="totalTarefas">0</strong>
+                <small>Tarefas cadastradas</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span>Pendentes</span>
+                    <span class="stat-icon orange">◷</span>
+                </div>
+                <strong id="totalPendentes">0</strong>
+                <small>Aguardando início</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span>Em andamento</span>
+                    <span class="stat-icon purple">↗</span>
+                </div>
+                <strong id="totalAndamento">0</strong>
+                <small>Em execução</small>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-top">
+                    <span>Concluídas</span>
+                    <span class="stat-icon green">✓</span>
+                </div>
+                <strong id="totalConcluidas">0</strong>
+                <small>Finalizadas</small>
+            </article>
+        </section>
+
+        <section class="task-section" id="lista">
+            <div class="section-heading">
+                <div>
+                    <h2>Minhas tarefas</h2>
+                    <p>Acompanhe e gerencie suas atividades.</p>
+                </div>
+                <button id="atualizarLista" class="secondary-button">
+                    ↻ Atualizar
+                </button>
+            </div>
+
+            <div class="filters">
+                <div class="search-box">
+                    <span>⌕</span>
+                    <input type="search" id="busca"
+                           placeholder="Buscar tarefa pelo título...">
+                </div>
+
+                <select id="filtroStatus" aria-label="Filtrar por status">
+                    <option value="">Todos os status</option>
+                    <option value="PENDENTE">Pendente</option>
+                    <option value="EM_ANDAMENTO">Em andamento</option>
+                    <option value="CONCLUIDA">Concluída</option>
+                </select>
+
+                <select id="filtroPrioridade" aria-label="Filtrar por prioridade">
+                    <option value="">Todas as prioridades</option>
+                    <option value="BAIXA">Baixa</option>
+                    <option value="MEDIA">Média</option>
+                    <option value="ALTA">Alta</option>
+                </select>
+            </div>
+
+            <div id="mensagem" class="message" role="status"
+                 aria-live="polite" hidden></div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tarefa</th>
+                            <th>Prioridade</th>
+                            <th>Status</th>
+                            <th>Prazo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabela">
+                        <tr>
+                            <td colspan="5" class="empty">
+                                Carregando tarefas...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <div class="modal" id="modal" hidden>
+        <div class="modal-content">
+            <div class="modal-heading">
+                <div>
+                    <h2 id="tituloModal">Nova tarefa</h2>
+                    <p>Preencha os dados da tarefa.</p>
+                </div>
+                <button type="button" id="fecharModal"
+                        class="close-button" aria-label="Fechar">×</button>
+            </div>
+
+            <form id="formTarefa" novalidate>
+                <input type="hidden" id="idTarefa">
+
+                <div class="form-group">
+                    <label for="titulo">Título</label>
+                    <input type="text" id="titulo" maxlength="100"
+                           placeholder="Ex.: Estudar Java" required>
+                    <small class="field-error" id="erroTitulo"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" rows="3" maxlength="500"
+                              placeholder="Descreva sua tarefa..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prioridade">Prioridade</label>
+                        <select id="prioridade" required>
+                            <option value="BAIXA">Baixa</option>
+                            <option value="MEDIA" selected>Média</option>
+                            <option value="ALTA">Alta</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" required>
+                            <option value="PENDENTE">Pendente</option>
+                            <option value="EM_ANDAMENTO">Em andamento</option>
+                            <option value="CONCLUIDA">Concluída</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="prazo">Prazo</label>
+                    <input type="date" id="prazo">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="cancelar"
+                            class="secondary-button">Cancelar</button>
+                    <button type="submit" id="salvar"
+                            class="primary-button">Salvar tarefa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
