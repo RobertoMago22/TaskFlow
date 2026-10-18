@@ -34,6 +34,11 @@ async function requisicao(url, opcoes = {}) {
         }
     });
 
+    if (resposta.status === 401) {
+        window.location.href = "index.html";
+        throw new Error("Sessão expirada. Faça login novamente.");
+    }
+
     if (!resposta.ok) {
         let detalhe = `Erro HTTP ${resposta.status}`;
 
@@ -392,7 +397,7 @@ btnSair.addEventListener("click", async evento => {
             credentials: "include"
         });
 
-        window.location.href = "login.html";
+        window.location.href = "index.html";
 
     } catch (error) {
 
