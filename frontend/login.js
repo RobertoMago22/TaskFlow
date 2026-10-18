@@ -1,5 +1,5 @@
 
-const API_URL = "http://localhost:8080/api/auth";
+const API_URL = "https://taskflow-rpnb.onrender.com/api/auth";
 
 const form = document.getElementById("formLogin");
 const email = document.getElementById("email");
@@ -89,7 +89,7 @@ form.addEventListener("submit", async evento => {
         mensagem.className = "feedback success";
         mensagem.hidden = false;
 
-        window.location.href = "index.html";
+        window.location.href = "tarefa.html";
 
     } catch (erro) {
         mensagem.textContent = erro.message;

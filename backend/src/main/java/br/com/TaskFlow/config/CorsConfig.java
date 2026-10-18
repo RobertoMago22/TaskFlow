@@ -12,7 +12,7 @@ public class CorsConfig implements WebMvcConfigurer{
 	public void addCorsMappings(CorsRegistry registry) {
 		
 		registry.addMapping("/**").
-		allowedOrigins("http://localhost:5500").
+		allowedOrigins("https://taskflow-frontend-6yva.onrender.com").
 		allowedMethods("GET", 
 					   "POST", 
 					   "DELETE", 

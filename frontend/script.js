@@ -1,5 +1,5 @@
 
-const API_URL = "http://localhost:8080/api/tarefas";
+const API_URL = "https://taskflow-rpnb.onrender.com/api/tarefas";
 
 // Elementos do HTML
 const corpoTabela = document.getElementById("corpoTabela");
